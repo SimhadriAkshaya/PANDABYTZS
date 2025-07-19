@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PANDA BYTZS</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>PANDA BYTZS</h1>
+
+    <div class="cones">
+      <div class="cone">
+        <img src="./assets/DARK CHOCO.jpg" alt="Dark Cone">
+        <h3>Dark Choco</h3>
+        <p>₹60 each</p>
+        <div class="qty-buttons">
+          <button onclick="updateQuantity('dark', -1)">-</button>
+          <span id="dark-count">0</span>
+          <button onclick="updateQuantity('dark', 1)">+</button>
+        </div>
+      </div>
+      <div class="cone">
+        <img src="./assets/CHOCO.jpg" alt="Milk Cone">
+        <h3>Milk Choco</h3>
+        <p>₹60 each</p>
+        <div class="qty-buttons">
+          <button onclick="updateQuantity('milk', -1)">-</button>
+          <span id="milk-count">0</span>
+          <button onclick="updateQuantity('milk', 1)">+</button>
+        </div>
+      </div>
+      <div class="cone">
+        <img src="./assets/WHITE CHOCO.jpg" alt="White Cone">
+        <h3>White Choco</h3>
+        <p>₹60 each</p>
+        <div class="qty-buttons">
+          <button onclick="updateQuantity('white', -1)">-</button>
+          <span id="white-count">0</span>
+          <button onclick="updateQuantity('white', 1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align:center; font-weight:bold; font-size:18px;">Each Cone Pack: ₹60</p>
+
+    <div class="cart">
+      <h2>Your Cart</h2>
+      <ul id="cart-list"></ul>
+      <p><strong>Subtotal:</strong> ₹<span id="subtotal">0</span></p>
+      <p><strong>Delivery Charge:</strong> ₹<span id="delivery">60</span></p>
+      <p><strong>Total:</strong> ₹<span id="total">0</span></p>
+      <button onclick="showCheckout()">Proceed to Checkout</button>
+    </div>
+
+    <div class="checkout hidden" id="checkout">
+      <h2>Enter Delivery Details</h2>
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+      <textarea id="address" placeholder="Address(pincode,district,street name,house name,flat no)" required></textarea>
+      <input type="text" id="landmark" placeholder="Near Landmark" />
+      <select id="payment" onchange="toggleQR(this.value)">
+        <option value="">Select Payment Method</option>
+        <option value="UPI">UPI</option>
+        <option value="Cash">Cash on Delivery</option>
+      </select>
+
+      <div id="qr" class="hidden">
+        <h3>Scan to Pay</h3>
+        <img src="./assets/payment.jpg" alt="QR Code" />
+      </div>
+
+      <button onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

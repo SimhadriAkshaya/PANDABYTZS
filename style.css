@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right,
+    #ffffff 0%, 
+    #ffffff 33.33%,
+    #000000 33.33%,
+    #000000 66.66%,
+    #8B4513 66.66%, 
+    #8B4513 100%);
+  color: #333;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background-color: #ffffffcc;
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+h1, h2 {
+  text-align: center;
+  color: #333;
+}
+
+.cones {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.cone {
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  width: 28%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.cone img {
+  width: 100px;
+  height: 100px;
+}
+
+.qty-buttons {
+  margin-top: 10px;
+}
+
+.qty-buttons button {
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+
+.cart {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e8f5e9;
+  border-radius: 10px;
+}
+
+.checkout {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e3f2fd;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+input, textarea, select {
+  display: block;
+  margin: 10px auto;
+  padding: 8px;
+  width: 90%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
