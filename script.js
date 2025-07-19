@@ -16,8 +16,11 @@ function updateCartDisplay() {
 
   cartList.innerHTML = "";
   let subtotal = 0;
+  let hasItems = false;
+
   for (let item in cart) {
     if (cart[item] > 0) {
+      hasItems = true;
       const cost = cart[item] * prices[item];
       subtotal += cost;
       const li = document.createElement("li");
@@ -26,9 +29,13 @@ function updateCartDisplay() {
     }
   }
 
-  const delivery = 60;
+  const delivery = hasItems ? 60 : 0;
   subtotalSpan.innerText = subtotal;
+  document.getElementById("delivery").innerText = delivery;
   totalSpan.innerText = subtotal + delivery;
+
+  // Disable checkout button if no items
+  document.querySelector(".cart button").disabled = !hasItems;
 }
 
 function capitalize(str) {
@@ -36,24 +43,65 @@ function capitalize(str) {
 }
 
 function showCheckout() {
-  document.getElementById("checkout").classList.remove("hidden");
-  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  const checkoutSection = document.getElementById("checkout");
+  checkoutSection.classList.remove("hidden");
+  checkoutSection.scrollIntoView({ behavior: "smooth" });
 }
 
 function toggleQR(method) {
-  document.getElementById("qr").classList.toggle("hidden", method !== "UPI");
+  const qr = document.getElementById("qr");
+  qr.classList.toggle("hidden", method !== "UPI");
 }
 
 function placeOrder() {
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const address = document.getElementById("address").value;
-  const payment = document.getElementById("payment").value;
+  const name = document.getElementById("name");
+  const phone = document.getElementById("phone");
+  const address = document.getElementById("address");
+  const payment = document.getElementById("payment");
 
-  if (!name || !phone || !address || !payment) {
-    alert("Please fill in all required details.");
+  // Reset previous highlights
+  [name, phone, address, payment].forEach(field => field.style.borderColor = "#ccc");
+
+  let isValid = true;
+
+  if (!name.value.trim()) {
+    name.style.borderColor = "red";
+    isValid = false;
+  }
+  if (!phone.value.trim()) {
+    phone.style.borderColor = "red";
+    isValid = false;
+  }
+  if (!address.value.trim()) {
+    address.style.borderColor = "red";
+    isValid = false;
+  }
+  if (!payment.value) {
+    payment.style.borderColor = "red";
+    isValid = false;
+  }
+
+  if (!isValid) {
+    alert("⚠️ Please fill in all required details.");
     return;
   }
 
-  alert("Order placed successfully!");
+  alert("✅ Order placed successfully!");
+  resetForm();
+}
+
+function resetForm() {
+  document.getElementById("name").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("address").value = "";
+  document.getElementById("landmark").value = "";
+  document.getElementById("payment").value = "";
+  document.getElementById("qr").classList.add("hidden");
+  cart = { dark: 0, milk: 0, white: 0 };
+  ['dark', 'milk', 'white'].forEach(type => {
+    document.getElementById(`${type}-count`).innerText = "0";
+  });
+  updateCartDisplay();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
