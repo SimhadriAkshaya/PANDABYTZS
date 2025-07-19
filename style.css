@@ -1,82 +1,217 @@
-body {
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to right,
-    #ffffff 0%, 
-    #ffffff 33.33%,
-    #000000 33.33%,
-    #000000 66.66%,
-    #8B4513 66.66%, 
-    #8B4513 100%);
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fff8f0;
   color: #333;
+  line-height: 1.6;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: auto;
-  background-color: #ffffffcc;
-  padding: 20px;
-  border-radius: 10px;
-  backdrop-filter: blur(5px);
+  padding: 1rem;
 }
 
-h1, h2 {
+h1, h2, h3 {
   text-align: center;
+  margin-bottom: 1rem;
   color: #333;
 }
 
+/* Cone Section */
 .cones {
   display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 1rem 0;
 }
 
 .cone {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 280px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   text-align: center;
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 10px;
-  width: 28%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.cone:hover {
+  transform: scale(1.02);
 }
 
 .cone img {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
 }
 
 .qty-buttons {
-  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 0.5rem;
 }
 
 .qty-buttons button {
-  padding: 5px 10px;
-  margin: 0 5px;
+  padding: 6px 12px;
+  font-size: 18px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
+.qty-buttons button:hover {
+  background: #0056b3;
+}
+
+/* Cart Section */
 .cart {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #e8f5e9;
+  background: #f0f0f0;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.cart ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.cart p {
+  font-size: 16px;
+  margin: 6px 0;
+}
+
+.cart button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.cart button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Checkout Section */
+.checkout {
+  margin-top: 2rem;
+  background: #eaf7ea;
+  padding: 1rem;
   border-radius: 10px;
 }
 
-.checkout {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #e3f2fd;
-  border-radius: 10px;
+.checkout input,
+.checkout textarea,
+.checkout select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.checkout input:focus,
+.checkout textarea:focus,
+.checkout select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.checkout button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.checkout button:hover {
+  background-color: #0056b3;
 }
 
 .hidden {
   display: none;
 }
 
-input, textarea, select {
-  display: block;
-  margin: 10px auto;
-  padding: 8px;
-  width: 90%;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+/* QR Code */
+#qr {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+#qr img {
+  max-width: 200px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .cones {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .cone {
+    width: 45%;
+  }
+
+  .cart, .checkout {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .cone {
+    width: 100%;
+  }
+
+  .qty-buttons button {
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+
+  .checkout input,
+  .checkout textarea,
+  .checkout select {
+    font-size: 14px;
+  }
+
+  .cart button,
+  .checkout button {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
 }
