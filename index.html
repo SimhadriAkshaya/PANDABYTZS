@@ -4,15 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PANDA BYTZS</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>PANDA BYTZS</h1>
+  <!-- Welcome Page -->
+  <div id="welcome" class="welcome-screen">
+    <img src="./assets/image.jpg" alt="PANDA BYTZS Logo" class="logo"/>
+    <h1>Welcome to PANDA BYTZS</h1>
+    <p>Your mini-choco cone destination</p>
+    <div class="welcome-buttons">
+      <button onclick="enterSite()">Get Started</button>
+      <a href="login.html" class="secondary-btn">Login</a>
+      <a href="signup.html" class="secondary-btn">Sign Up</a>
+    </div>
+  </div>
 
-    <div class="cones">
-      <div class="cone">
-        <img src="./assets/DARK CHOCO.jpg" alt="Dark Cone">
+  <!-- Main Content -->
+  <div class="container hidden" id="main-content">
+    <header>
+      <h1>PANDA BYTZS</h1>
+      <button class="back-btn" onclick="goBackToWelcome()">← Back</button>
+    </header>
+
+    <section class="cones">
+      <!-- Dark Chocolate -->
+      <div class="cone card">
+        <img src="./assets/DARK CHOCO.jpg" alt="Dark Chocolate Cone" />
         <h3>Dark Choco</h3>
         <p>₹60 each</p>
         <div class="qty-buttons">
@@ -21,8 +38,10 @@
           <button onclick="updateQuantity('dark', 1)">+</button>
         </div>
       </div>
-      <div class="cone">
-        <img src="./assets/CHOCO.jpg" alt="Milk Cone">
+
+      <!-- Milk Chocolate -->
+      <div class="cone card">
+        <img src="./assets/CHOCO.jpg" alt="Milk Chocolate Cone" />
         <h3>Milk Choco</h3>
         <p>₹60 each</p>
         <div class="qty-buttons">
@@ -31,8 +50,10 @@
           <button onclick="updateQuantity('milk', 1)">+</button>
         </div>
       </div>
-      <div class="cone">
-        <img src="./assets/WHITE CHOCO.jpg" alt="White Cone">
+
+      <!-- White Chocolate -->
+      <div class="cone card">
+        <img src="./assets/WHITE CHOCO.jpg" alt="White Chocolate Cone" />
         <h3>White Choco</h3>
         <p>₹60 each</p>
         <div class="qty-buttons">
@@ -41,40 +62,130 @@
           <button onclick="updateQuantity('white', 1)">+</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <p style="text-align:center; font-weight:bold; font-size:18px;">Each Cone Pack: ₹60</p>
+    <p class="note">Each Cone Pack: ₹60</p>
 
-    <div class="cart">
+    <!-- Cart Section -->
+    <section class="cart card">
       <h2>Your Cart</h2>
       <ul id="cart-list"></ul>
       <p><strong>Subtotal:</strong> ₹<span id="subtotal">0</span></p>
       <p><strong>Delivery Charge:</strong> ₹<span id="delivery">60</span></p>
       <p><strong>Total:</strong> ₹<span id="total">0</span></p>
-      <button onclick="showCheckout()">Proceed to Checkout</button>
-    </div>
+      <button id="checkout-btn" onclick="handleCheckout()" disabled>Proceed to Checkout</button>
+    </section>
 
-    <div class="checkout hidden" id="checkout">
+    <!-- Checkout Section -->
+    <section class="checkout card hidden" id="checkout">
+      <button class="back-btn" onclick="goBackToMain()">← Back</button>
       <h2>Enter Delivery Details</h2>
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="tel" id="phone" placeholder="Phone Number" required />
-      <textarea id="address" placeholder="Address(pincode,district,street name,house name,flat no)" required></textarea>
-      <input type="text" id="landmark" placeholder="Near Landmark" />
-      <select id="payment" onchange="toggleQR(this.value)">
-        <option value="">Select Payment Method</option>
-        <option value="UPI">UPI</option>
-        <option value="Cash">Cash on Delivery</option>
-      </select>
+      <form onsubmit="placeOrder(); return false;">
+        <input type="text" id="name" placeholder="Full Name" required />
+        <input type="tel" id="phone" placeholder="Phone Number" required />
+        <textarea id="address" placeholder="Address (pincode, district, street name, house/flat no)" required></textarea>
+        <input type="text" id="landmark" placeholder="Near Landmark (optional)" />
+        <select id="payment" onchange="toggleQR(this.value)" required>
+          <option value="">Select Payment Method</option>
+          <option value="UPI">UPI</option>
+          <option value="Cash">Cash on Delivery</option>
+        </select>
 
-      <div id="qr" class="hidden">
-        <h3>Scan to Pay</h3>
-        <img src="./assets/payment.jpg" alt="QR Code" />
-      </div>
+        <div id="qr" class="hidden">
+          <h3>Scan to Pay</h3>
+          <img src="./assets/payment.jpg" alt="QR Code for UPI Payment" />
+        </div>
 
-      <button onclick="placeOrder()">Place Order</button>
-    </div>
+        <button type="submit">Place Order</button>
+      </form>
+    </section>
   </div>
 
+  <script>
+    // Simulated authentication status
+    let isLoggedIn = false; // Change this to true if the user is logged in
+
+    function enterSite() {
+      document.getElementById('welcome').classList.add('hidden');
+      document.getElementById('main-content').classList.remove('hidden');
+    }
+
+    function goBackToWelcome() {
+      document.getElementById('main-content').classList.add('hidden');
+      document.getElementById('welcome').classList.remove('hidden');
+    }
+
+    function goBackToMain() {
+      document.getElementById('checkout').classList.add('hidden');
+      document.querySelector('.cart.card').classList.remove('hidden');
+      document.querySelector('.cones').classList.remove('hidden');
+      document.querySelector('.note').classList.remove('hidden');
+    }
+
+    function handleCheckout() {
+      if (!isLoggedIn) {
+        // Redirect to login page if not logged in
+        window.location.href = "login.html";
+      } else {
+        // Show checkout form
+        document.getElementById('checkout').classList.remove('hidden');
+        document.querySelector('.cart.card').classList.add('hidden');
+        document.querySelector('.cones').classList.add('hidden');
+        document.querySelector('.note').classList.add('hidden');
+      }
+    }
+
+    // --- Your original functionality for quantity and cart ---
+    let cart = { dark: 0, milk: 0, white: 0 };
+
+    function updateQuantity(type, change) {
+      cart[type] = Math.max(0, cart[type] + change);
+      document.getElementById(`${type}-count`).textContent = cart[type];
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartList = document.getElementById("cart-list");
+      cartList.innerHTML = "";
+      let subtotal = 0;
+      Object.entries(cart).forEach(([type, qty]) => {
+        if (qty > 0) {
+          let name = type === "dark" ? "Dark Choco" : type === "milk" ? "Milk Choco" : "White Choco";
+          cartList.innerHTML += `<li>${name}: ${qty} × ₹60 = ₹${qty * 60}</li>`;
+          subtotal += qty * 60;
+        }
+      });
+      document.getElementById("subtotal").textContent = subtotal;
+      let delivery = subtotal > 0 ? 60 : 0;
+      document.getElementById("delivery").textContent = delivery;
+      document.getElementById("total").textContent = subtotal + delivery;
+      document.getElementById("checkout-btn").disabled = subtotal === 0;
+    }
+
+    function placeOrder() {
+      alert("Order placed! (Functionality to be implemented)");
+      // You can add order logic here
+      // Reset form and cart after order
+      document.getElementById("checkout").classList.add("hidden");
+      document.getElementById("main-content").classList.add("hidden");
+      document.getElementById("welcome").classList.remove("hidden");
+      cart = { dark: 0, milk: 0, white: 0 };
+      updateCart();
+      document.getElementById("name").value = "";
+      document.getElementById("phone").value = "";
+      document.getElementById("address").value = "";
+      document.getElementById("landmark").value = "";
+      document.getElementById("payment").value = "";
+      toggleQR("");
+    }
+
+    function toggleQR(paymentMethod) {
+      document.getElementById("qr").classList.toggle("hidden", paymentMethod !== "UPI");
+    }
+
+    // Initial cart setup
+    updateCart();
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
