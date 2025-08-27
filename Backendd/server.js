@@ -167,6 +167,71 @@ app.get("/api/orders", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Database error" });
   }
 });
+app.get("/api/orders-with-items", async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        o.order_id,
+        o.customer_id,
+        o.customer_name,
+        o.phone,
+        o.address,
+        o.payment_method,
+        o.utr_number,
+        o.created_at,
+        oi.item_id,
+        oi.product_id,
+        oi.quantity
+      FROM orders o
+      LEFT JOIN order_items oi ON o.order_id = oi.order_id
+      ORDER BY o.created_at DESC
+    `);
+
+    // Group by order_id
+    const orders = {};
+    rows.forEach(row => {
+      if (!orders[row.order_id]) {
+        orders[row.order_id] = {
+          order_id: row.order_id,
+          customer_id: row.customer_id,
+          customer_name: row.customer_name,
+          phone: row.phone,
+          address: row.address,
+          payment_method: row.payment_method,
+          utr_number: row.utr_number,
+          created_at: row.created_at,
+          items: []
+        };
+      }
+
+      if (row.item_id) {
+        orders[row.order_id].items.push({
+          item_id: row.item_id,
+          product_id: row.product_id,
+          quantity: row.quantity
+        });
+      }
+
+    });
+order.items.forEach(item => {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${item.item_id}</td>
+    <td>${item.product_name}</td>
+    <td>${item.quantity}</td>
+  `;
+  table.appendChild(row);
+});
+
+    res.json(Object.values(orders));
+  } catch (err) {
+    console.error("🔥 /api/orders-with-items error:", err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+
+
 
 // Get Products
 app.get("/products", async (req, res) => {
